@@ -1,6 +1,6 @@
 {
   "name": "inject-webpack-plugin",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "webpack plugin for injecting dependencies",
   "main": "index.js",
   "repository": {
