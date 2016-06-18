@@ -1,0 +1,21 @@
+{
+  "name": "inject-webpack-plugin",
+  "version": "0.0.0",
+  "description": "webpack plugin for injecting dependencies",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kirisu/inject-webpack-plugin.git"
+  },
+  "keywords": [
+    "webpack",
+    "plugin",
+    "dependency-injection"
+  ],
+  "author": "Christopher Lunt <me@kirisu.co.uk>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kirisu/inject-webpack-plugin/issues"
+  },
+  "homepage": "https://github.com/kirisu/inject-webpack-plugin"
+}
