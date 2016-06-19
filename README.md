@@ -37,7 +37,7 @@ Useful for getting around things like [this](https://github.com/gaearon/redux-de
 if (process.env.NODE_ENV === 'development') {
   plugins.push(
     new InjectWebpackPlugin({
-      'configureStore.js': 'configureStore.dev.js'
+      'configureStore': 'configureStore.dev'
     });
   )
 }
