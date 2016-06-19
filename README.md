@@ -21,14 +21,15 @@ export default {
     // ...
     plugins: [
       new InjectWebpackPlugin({
-        'path/to/file.js': 'path/to/another/file.js',
-        'react': 'replacing/react/like/a/boss.js'
+        'path/to/file': 'path/to/another/file',
+        'path/to/file.scss': 'path/to/another/file.scss',
+        'react': 'replacing/react/like/a/boss'
       });
     ]
 };
 ```
 
-This will replace any instances of `path/to/file.js` with `path/to/file.dev.js` as well as allowing you to replace `react` if you so wish.
+This will replace any instances of `path/to/file` with `path/to/file.dev`, `path/to/file.scss` with `path/to/file.dev.scss`, as well as allowing you to replace `react` if you so wish.
 
 Useful for getting around things like [this](https://github.com/gaearon/redux-devtools/blob/master/docs/Walkthrough.md#storeconfigurestorejs-1) by combining with environment variables. For example:
 

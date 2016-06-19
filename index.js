@@ -1,55 +1,43 @@
 var path = require('path');
 var root = path.resolve(__dirname, process.cwd());
+var pkg = require(root + '/package.json');
 
 function InjectWebpackPlugin(options) {
   this.options = options;
-  this.nodeModules = Object.keys(require(root + '/package.json').dependencies);
+  var dependencies = Object.keys(pkg.dependencies);
+  var devDependencies = Object.keys(pkg.devDependencies);
+  this.nodeModules = dependencies.concat(devDependencies);
 }
 
 InjectWebpackPlugin.prototype.apply = function(compiler) {
   var _this = this;
+  this.dependencyMap = {};
 
-  this.dependencyMapings = {};
-
-  Object.keys(this.options).map(function (key) {
-    var paths = _this.options[key].split('/');
-    var newFileName = paths.pop();
-
-    var entry = _this.nodeModules.indexOf(key) !== -1 ?
-      key :
-      path.resolve(compiler.context, key);
-
-    var newContext = paths.join('/');
-
-    return _this.dependencyMapings[entry] = {
-      context: path.resolve(root, compiler.context, newContext),
-      fileName: newFileName
+  this.filesToBeReplaced = Object.keys(this.options).map(function (file) {
+    if (_this.nodeModules.indexOf(file) !== -1) {
+      _this.dependencyMap[file] = path.resolve(compiler.context, _this.options[file]);
+      return file;
     }
+
+    var resolvedPath = path.resolve(compiler.context, file);
+    _this.dependencyMap[resolvedPath] = path.resolve(compiler.context, _this.options[file]);
+    return resolvedPath;
   });
 
   compiler.plugin('normal-module-factory', function (nmf) {
     nmf.plugin('before-resolve', function(module, callback) {
-      if (_this.dependencyMapings[module.request]) {
-        var newDependency = _this.dependencyMapings[module.request];
-        var newPath = path.join(newDependency.context, newDependency.fileName);
-        module.request = newPath;
-        module.dependency.request = newPath;
-        module.dependency.userRequest = newPath;
-      }
-      return callback(null, module);
-    });
+      if(module.context.includes(compiler.context)) {
+        var nonNodeModuleIndex = _this.filesToBeReplaced.indexOf(path.resolve(compiler.context, module.request));
+        var nodeModuleIndex = _this.filesToBeReplaced.indexOf(module.request);
 
-    nmf.plugin('after-resolve', function (module, callback) {
-      if (_this.dependencyMapings[module.resource]) {
-        var newDependency = _this.dependencyMapings[module.resource];
-        var newPath = path.join(newDependency.context, newDependency.fileName);
+        if(nonNodeModuleIndex !== -1 || nodeModuleIndex !== -1) {
+          var newFile = nonNodeModuleIndex !== -1 ? path.resolve(compiler.context, module.request) : module.request;
+          module.request = _this.dependencyMap[newFile];
+          module.dependency.request = _this.dependencyMap[newFile];
+          module.dependency.userRequest = _this.dependencyMap[newFile];
+        }
+      };
 
-        module.request = module.request.replace(module.resource, newPath);
-        module.context = newDependency.context;
-        module.rawRequest = newPath;
-        module.userRequest = newPath;
-        module.resource = newPath;
-      }
       return callback(null, module);
     });
   });
