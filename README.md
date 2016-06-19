@@ -29,7 +29,7 @@ export default {
 };
 ```
 
-This will replace any instances of `path/to/file` with `path/to/file.dev`, `path/to/file.scss` with `path/to/file.dev.scss`, as well as allowing you to replace `react` if you so wish.
+This will replace any instances of `path/to/file` with `path/to/another/file`, `path/to/file.scss` with `path/to/another/file.scss`, as well as allowing you to replace `react` if you so wish.
 
 Useful for getting around things like [this](https://github.com/gaearon/redux-devtools/blob/master/docs/Walkthrough.md#storeconfigurestorejs-1) by combining with environment variables. For example:
 
