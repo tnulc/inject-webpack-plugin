@@ -27,11 +27,11 @@ InjectWebpackPlugin.prototype.apply = function(compiler) {
   compiler.plugin('normal-module-factory', function (nmf) {
     nmf.plugin('before-resolve', function(module, callback) {
       if(module.context.includes(compiler.context)) {
-        var nonNodeModuleIndex = _this.filesToBeReplaced.indexOf(path.resolve(compiler.context, module.request));
+        var nonNodeModuleIndex = _this.filesToBeReplaced.indexOf(path.resolve(module.context, module.request));
         var nodeModuleIndex = _this.filesToBeReplaced.indexOf(module.request);
 
         if(nonNodeModuleIndex !== -1 || nodeModuleIndex !== -1) {
-          var newFile = nonNodeModuleIndex !== -1 ? path.resolve(compiler.context, module.request) : module.request;
+          var newFile = nonNodeModuleIndex !== -1 ? path.resolve(module.context, module.request) : module.request;
           module.request = _this.dependencyMap[newFile];
           module.dependency.request = _this.dependencyMap[newFile];
           module.dependency.userRequest = _this.dependencyMap[newFile];
