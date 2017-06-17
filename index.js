@@ -35,8 +35,14 @@ InjectWebpackPlugin.prototype.apply = function(compiler) {
   compiler.plugin('normal-module-factory', function(nmf) {
     nmf.plugin('before-resolve', function(module, callback) {
       if (module.context.includes(compiler.context)) {
-        var isNonNodeModuleToBeReplaced = shouldModuleBeReplaced(filesToBeReplaced, path.resolve(module.context, module.request));
-        var isNodeModuleToBeReplaced = shouldModuleBeReplaced(filesToBeReplaced, module.request);
+        var isNonNodeModuleToBeReplaced = shouldModuleBeReplaced(
+          filesToBeReplaced,
+          path.resolve(module.context, module.request)
+        );
+        var isNodeModuleToBeReplaced = shouldModuleBeReplaced(
+          filesToBeReplaced,
+          module.request
+        );
 
         if (isNonNodeModuleToBeReplaced || isNodeModuleToBeReplaced) {
           var moduleToBeReplaced = isNonNodeModuleToBeReplaced
