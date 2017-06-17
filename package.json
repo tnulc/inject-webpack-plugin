@@ -1,8 +1,11 @@
 {
   "name": "inject-webpack-plugin",
-  "version": "0.4.0",
+  "version": "1.0.0",
   "description": "webpack plugin for injecting dependencies",
   "main": "index.js",
+  "scripts": {
+    "test": "mocha --ui tdd"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kirisu/inject-webpack-plugin.git"
@@ -17,5 +20,14 @@
   "bugs": {
     "url": "https://github.com/kirisu/inject-webpack-plugin/issues"
   },
-  "homepage": "https://github.com/kirisu/inject-webpack-plugin"
+  "homepage": "https://github.com/kirisu/inject-webpack-plugin",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "rimraf": "^2.6.1",
+    "webpack": "^2.2.1"
+  },
+  "peerDependencies": {
+    "webpack": "^2"
+  }
 }

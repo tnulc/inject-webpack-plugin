@@ -42,5 +42,3 @@ if (process.env.NODE_ENV === 'development') {
   )
 }
 ```
-
-This plugin has no tests and was the simplest implementation I could find. Any help with improving and creating tests is greatly appreciated.
