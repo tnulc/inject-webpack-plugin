@@ -28,6 +28,6 @@
     "webpack": "^2.2.1"
   },
   "peerDependencies": {
-    "webpack": "^2"
+    "webpack": "^2 || ^3"
   }
 }
