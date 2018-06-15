@@ -1,2 +1,2 @@
 var a = require('./a');
-var rimraf = require('rimraf');
+var jest = require('jest');
