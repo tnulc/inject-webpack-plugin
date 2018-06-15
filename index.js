@@ -9,9 +9,10 @@ function buildModuleMapping(options, compiler) {
   );
 
   Object.keys(options).map(function(moduleToBeReplaced) {
-    var oldPath = nodeModules.indexOf(moduleToBeReplaced) >= 0
-      ? moduleToBeReplaced
-      : path.resolve(compiler.context, moduleToBeReplaced);
+    var oldPath =
+      nodeModules.indexOf(moduleToBeReplaced) >= 0
+        ? moduleToBeReplaced
+        : path.resolve(compiler.context, moduleToBeReplaced);
     var newPath = path.resolve(compiler.context, options[moduleToBeReplaced]);
 
     moduleMapping[oldPath] = newPath;
@@ -32,8 +33,8 @@ InjectWebpackPlugin.prototype.apply = function(compiler) {
   var moduleMapping = buildModuleMapping(this.options, compiler);
   var filesToBeReplaced = Object.keys(moduleMapping);
 
-  compiler.plugin('normal-module-factory', function(nmf) {
-    nmf.plugin('before-resolve', function(module, callback) {
+  compiler.hooks.normalModuleFactory.tap('InjectWebpackPlugin', function(nmf) {
+    nmf.hooks.beforeResolve.tap('InjectWebpackPlugin', function(module) {
       if (module.context.includes(compiler.context)) {
         var isNonNodeModuleToBeReplaced = shouldModuleBeReplaced(
           filesToBeReplaced,
@@ -53,7 +54,7 @@ InjectWebpackPlugin.prototype.apply = function(compiler) {
         }
       }
 
-      return callback(null, module);
+      return module;
     });
   });
 };
